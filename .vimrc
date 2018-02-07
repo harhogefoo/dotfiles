@@ -68,6 +68,13 @@ set notitle
 " ルーラーを表示
 set ruler
 set ignorecase
+
+set visualbell
+set noerrorbells
+
+" コメントの色を変更
+hi Comment ctermfg=red
+
 " コマンドラインモードえ<Tab>キーによるファイル名補完を有効にする
 set wildmenu
 let g:molokai_original = 1
