@@ -75,6 +75,29 @@ set noerrorbells
 " コメントの色を変更
 hi Comment ctermfg=red
 
+" paste時に自動インデントさせない
+if exists("g:loaded_bracketed_paste")
+  finish
+endif
+let g:loaded_bracketed_paste = 1
+
+let &t_ti .= "\<Esc>[?2004h"
+let &t_te .= "\<Esc>[?2004l"
+
+function! XTermPasteBegin(ret)
+  set pastetoggle=<f29>
+  set paste
+  return a:ret
+endfunction
+
+execute "set <f28>=\<Esc>[200~"
+execute "set <f29>=\<Esc>[201~"
+map <expr> <f28> XTermPasteBegin("i")
+imap <expr> <f28> XTermPasteBegin("")
+vmap <expr> <f28> XTermPasteBegin("c")
+cmap <f28> <nop>
+cmap <f29> <nop>
+
 " コマンドラインモードえ<Tab>キーによるファイル名補完を有効にする
 set wildmenu
 let g:molokai_original = 1
@@ -83,11 +106,10 @@ set background=dark
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 match ZenkakuSpace / __/ "全角スペースの表示
 
-autocmd FileType python setl autoindent
-autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-
-autocmd FileType ruby setl smartindent cinwords=if,elsif,else,for,while,def,class
-autocmd FileType ruby setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
-autocmd FileType ruby setl autoindent
-
+" autocmd FileType python setl autoindent
+" autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+" autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+"
+" autocmd FileType ruby setl smartindent cinwords=if,elsif,else,for,while,def,class
+" autocmd FileType ruby setl expandtab tabstop=2 shiftwidth=2 softtabstop=2
+" autocmd FileType ruby setl autoindent
